@@ -1,0 +1,108 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:model="clr-namespace:Realtime.Model"
+                    xmlns:behaviours="clr-namespace:Realtime.Behaviours">
+    
+    
+    <Style x:Key="GridHeaderStyle" TargetType="DataGridColumnHeader">
+        <Setter Property="Background" Value="Black" />
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="BorderThickness" Value="0.75" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="Height" Value="25"></Setter>
+        <Setter Property="BorderBrush" Value="LightCyan"/>
+    </Style>
+    
+    <Style x:Key="GridCellCenterStyle" TargetType="DataGridCell">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="DataGridCell">
+                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"></ContentPresenter>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="GridCellRightStyle" TargetType="DataGridCell">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="DataGridCell">
+                    <ContentPresenter HorizontalAlignment="right" VerticalAlignment="Center" />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <DataTemplate x:Key="SymbolCellTemplate" DataType="{x:Type model:Stock}">
+        <TextBlock Text="{Binding Symbol}" />
+    </DataTemplate>
+    <DataTemplate x:Key="QtyCellTemplate" DataType="{x:Type model:Stock}">
+        <TextBlock Text ="{Binding Quantity}" 
+                   Name="txtQty"
+                   behaviours:AttachedBehaviors.AllowNotificationOnTargetUpdate ="{Binding DataContext.FlashUpdates,
+                        RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
+                   Background="Transparent" />
+        <DataTemplate.Triggers>
+            <EventTrigger RoutedEvent="Binding.TargetUpdated">
+                <BeginStoryboard>
+                    <Storyboard AutoReverse="True">
+                        <ColorAnimation Storyboard.TargetName="txtQty"
+                                        Storyboard.TargetProperty="Background.(SolidColorBrush.Color)"
+                                        From="Transparent"
+                                        To="LightGreen"
+                                        Duration="0:0:15"
+                                        FillBehavior="Stop"
+                                        >
+                        </ColorAnimation>
+                    </Storyboard>
+                </BeginStoryboard>
+            </EventTrigger>
+        </DataTemplate.Triggers>
+    </DataTemplate>
+    
+    <DataTemplate DataType="{x:Type model:Stock}" x:Key="PriceCellTemplate">
+        <TextBlock Text="{Binding Price, StringFormat=N4}"  
+                   behaviours:AttachedBehaviors.AllowNotificationOnTargetUpdate="{Binding DataContext.FlashUpdates,
+                                    RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" 
+                   Name="txtPrice"
+                   Background="Transparent"
+        />
+        <DataTemplate.Triggers>
+            <EventTrigger RoutedEvent="Binding.TargetUpdated">
+                <BeginStoryboard Name="priceStoryBoard">
+                    <Storyboard AutoReverse="True">
+                        <ColorAnimation Storyboard.TargetName="txtPrice" 
+                                        Storyboard.TargetProperty="Background.(SolidColorBrush.Color)"  
+                                        From="Transparent"
+                                        To="LightGreen"  
+                                        Duration="0:0:.15"
+                                        FillBehavior="Stop" />
+                    </Storyboard>
+                </BeginStoryboard>
+            </EventTrigger>
+        </DataTemplate.Triggers>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type model:Stock}" x:Key="ValueCellTemplate">
+        <TextBlock Text="{Binding Value, StringFormat=N2}"  
+                   behaviours:AttachedBehaviors.AllowNotificationOnTargetUpdate="{Binding DataContext.FlashUpdates, 
+                                    RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" 
+                   Name="txtValue" 
+                   Background="Transparent"
+        />
+        <DataTemplate.Triggers>
+            <EventTrigger RoutedEvent="Binding.TargetUpdated">
+                <BeginStoryboard Name="valueStoryBoard">
+                    <Storyboard AutoReverse="True">
+                        <ColorAnimation Storyboard.TargetName="txtValue" 
+                                        Storyboard.TargetProperty="Background.(SolidColorBrush.Color)"  
+                                        From="Transparent"
+                                        To="LightGreen"  
+                                        Duration="0:0:.15"
+                                        FillBehavior="Stop" />
+                    </Storyboard>
+                </BeginStoryboard>
+            </EventTrigger>
+        </DataTemplate.Triggers>
+    </DataTemplate>
+</ResourceDictionary>

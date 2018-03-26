@@ -1,0 +1,16 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\Realtime",
+    "\\Realtime\\Behaviours",
+    "\\Realtime\\Converters",
+    "\\Realtime\\Model",
+    "\\Realtime\\Modules",
+    "\\Realtime\\repository",
+    "\\Realtime\\Services",
+    "\\Realtime\\Themes",
+    "\\Realtime\\ViewModel"
+  ],
+  "SelectedNode": "\\Realtime\\ViewModel\\MainViewModel.cs",
+  "PreviewInSolutionExplorer": false
+}

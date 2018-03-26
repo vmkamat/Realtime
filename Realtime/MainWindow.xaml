@@ -1,0 +1,71 @@
+﻿<Window x:Class="Realtime.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:viewModel="clr-namespace:Realtime.ViewModel"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:behaviours="clr-namespace:Realtime.Behaviours"
+        mc:Ignorable="d"
+        d:DataContext="{d:DesignInstance Type=viewModel:MainViewModel, IsDesignTimeCreatable = false}"
+        Title="MainWindow" Height="600"  Width="375" MaxWidth="400" MinWidth="350">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Themes/GridColumnsStyles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <WrapPanel>
+            <Label Content="Update interval (in ms) :" Margin="5,0" VerticalContentAlignment ="Center" Width="Auto" />
+            <TextBox Margin="5,0" Width="50" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Text="{Binding UIupdateInterval, Mode=TwoWay}" >
+                <i:Interaction.Behaviors>
+                    <behaviours:TextboxEnterKeyBehavior />
+                </i:Interaction.Behaviors>
+            </TextBox>
+            <CheckBox Content="Flash Updates" IsChecked="{Binding FlashUpdates, Mode=TwoWay}" VerticalContentAlignment="Center" Margin="20,2" Width="Auto" ></CheckBox>
+        </WrapPanel>
+
+        <DataGrid ItemsSource="{Binding Stocks}"
+                  AutoGenerateColumns="False" 
+                  AlternatingRowBackground="LightCyan"
+                  ColumnHeaderStyle="{StaticResource GridHeaderStyle}"
+                  Width="Auto"
+                  Grid.Row="1" >
+            <DataGrid.Columns>
+
+                <DataGridTemplateColumn   
+                    Header="Symbol"  
+                    Width="75"  
+                    CellStyle="{StaticResource GridCellCenterStyle}"
+                    CellTemplate="{StaticResource SymbolCellTemplate}">
+                </DataGridTemplateColumn>
+                
+                <DataGridTemplateColumn 
+                    Header="Quantity" 
+                    Width="75"  
+                    CellStyle="{StaticResource GridCellRightStyle}" 
+                    CellTemplate="{StaticResource QtyCellTemplate}" />
+                
+                <DataGridTemplateColumn 
+                    Header="Price ($)" 
+                    Width="100" 
+                    CellStyle="{StaticResource GridCellRightStyle}"
+                    CellTemplate="{StaticResource PriceCellTemplate}" />
+
+                <DataGridTemplateColumn 
+                    Header="Value ($)" 
+                    Width="125*"  
+                    CellStyle="{StaticResource GridCellRightStyle}" 
+                    CellTemplate="{StaticResource ValueCellTemplate}" />
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+
+</Window>
